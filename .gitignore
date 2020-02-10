@@ -7,3 +7,4 @@ rebel.xml
 /build/
 .*
 !.gitignore
+/target/

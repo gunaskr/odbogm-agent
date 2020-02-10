@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.instrument.Instrumentation;
+import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
@@ -105,7 +106,8 @@ public class TransparentDirtyDetectorAgent {
     }
 
     private static void loadAgent(String agentJar, String options) throws AttachNotSupportedException, IOException, AgentLoadException, AgentInitializationException {
-        long pid = ProcessHandle.current().pid();
+    	String[] split = ManagementFactory.getRuntimeMXBean().getName().split("@");
+        long pid = Long.valueOf(split[0]);
         VirtualMachine vm = VirtualMachine.attach("" + pid);
         vm.loadAgent(agentJar, null);
     }
